@@ -6,7 +6,7 @@ This script is my approach to simplify the updating and upgrading process of our
 
 The script assumes the server is running a distribution which handles its package management via 'apt-get'.
 
-I would recommend to have a working ssh environment on your domain-0 with one specific user having a SSH config somewhat like this:
+I would recommend to have a working SSH environment on your domain-0 with one specific user having a SSH config somewhat like this:
 
 ```bash
 $ cat ~/.ssh/config
@@ -23,7 +23,7 @@ HostName 10.0.0.x
 User root
 ```
 
-The important part of this is the 'Host' line. The script uses the machine name as the ssh target like
+The important part of this is the 'Host' line. The script uses the machine name as the SSH target like
 
 ```bash
 ssh machine-1-name
