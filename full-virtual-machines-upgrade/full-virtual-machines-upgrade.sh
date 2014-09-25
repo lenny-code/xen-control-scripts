@@ -13,35 +13,37 @@ fi
 allMachines="$(sudo xm list | awk -F '[ ]' '{ print $1 }' | awk 'NR>2')"
 
 # Now we iterate over each found machine name.
-for line in $allMachines
+for line in ${allMachines}
 do
 	# Log what we are about to do.
-	printf "Attempting to update and upgrade machine: ${line}.\n"
+	printf "Updating machine: ${line}.\n"
 
 	# SSH onto each machine, execute a full system upgrade
 	# and clean up unused packages after that.
 	ssh "${line}" /bin/bash << EOF
 		apt-get update;
+		printf "\nUpgrading:\n";
 		apt-get upgrade -y;
+		printf "\nPossible autoremove:\n";
 		apt-get autoremove -y;
 		exit;
 EOF
 
 	# We assume that everything went smoothely.
-	printf "Done.\n\n"
+	printf "\nDone.\n\n\n"
 done
 
 
 # If the "--reboot" flag was selected, let's reboot
 # every virtual machine after the full system upgrade.
-if [[ $# == 1 && "$1" == "--reboot" ]]
+if [[ $# == 1 && "${1}" == "--reboot" ]]
 then
 	printf "\n\nA reboot of the upgraded virtual machines was selected.\n"
 
 	# We make use of the XEN internal tools here.
 	xm reboot -aw
 
-	printf "\nAll upgrades and reboots done."
+	printf "\n\nAll upgrades and reboots done."
 fi
 
 
