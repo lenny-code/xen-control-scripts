@@ -41,7 +41,7 @@ then
 	printf "\n\nA reboot of the upgraded virtual machines was selected.\n"
 
 	# We make use of the XEN internal tools here.
-	xm reboot -aw
+	sudo xm reboot -aw
 
 	printf "\n\nAll upgrades and reboots done."
 fi
