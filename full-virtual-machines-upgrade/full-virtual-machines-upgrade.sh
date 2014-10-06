@@ -9,7 +9,21 @@ then
 	exit 3
 fi
 
-# We need all running virtual machines except for Domain-0 (thus NR>2).
+dom0=`cat /etc/hostname`
+
+# First, let's update and upgrade Domain-0
+printf "Updating your Domain-0 (${dom0}):\n"
+sudo apt-get update
+
+printf "\nUpgrading Domain-0:\n"
+sudo apt-get upgrade
+
+printf "\nPossible autoremove on Domain-0:\n"
+sudo apt-get autoremove
+
+printf "\nDone.\n\n\n"
+
+# After that, we need all running virtual machines except for Domain-0 (thus NR>2).
 allMachines="$(sudo xm list | awk -F '[ ]' '{ print $1 }' | awk 'NR>2')"
 
 # Now we iterate over each found machine name.
