@@ -9,7 +9,8 @@ then
 	exit 3
 fi
 
-dom0=`cat /etc/hostname`
+# Save the Domain-0 host name for later use
+dom0=$(cat /etc/hostname)
 
 # First, let's update and upgrade Domain-0
 printf "Updating your Domain-0 (${dom0}):\n"
@@ -24,7 +25,8 @@ sudo apt-get autoremove
 printf "\nDone.\n\n\n"
 
 # After that, we need all running virtual machines except for Domain-0 (thus NR>2).
-allMachines="$(sudo xm list | awk -F '[ ]' '{ print $1 }' | awk 'NR>2')"
+allMachines=$(sudo xm list | awk '{if(NR>2){print $1}}')
+
 
 # Now we iterate over each found machine name.
 for line in ${allMachines}
