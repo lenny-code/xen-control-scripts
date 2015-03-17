@@ -47,22 +47,8 @@ It will prompt you to enter the private key password just one time each session 
 
 # Usage
 
-After the SSH setup is done the usage of this script is simple. You can either just update and upgrade every machine or trigger an additional reboot of each machine with the extra flag "--reboot".
-
-So to just update and upgrade run this from domain-0 on the user which SSH key is on each machine
+Simply run the script without any parameters to see usage.
 
 ```bash
-./full-virtual-machines-upgrade.sh
+./update-and-reboot
 ```
-
-and enter the user's password.
-
-To trigger an additional reboot of each machine after the updates, run
-
-```bash
-./full-virtual-machines-upgrade.sh --reboot
-```
-
-and enter the user's password.
-
-You should see some logging about which machine is updated at the moment and also the SSH output (complete apt-get output).
