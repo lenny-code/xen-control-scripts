@@ -16,6 +16,7 @@ dom0=$(cat /etc/hostname)
 
 # Define your NFS machine here.
 nfsMachine=<NFS-MACHINE>
+nfsMachineIP=<NFS-MACHINE-IP>
 
 # After that, we need all running virtual machines except for Domain-0 (thus NR>2).
 allMachines=$(sudo xm list | awk '{if(NR>2){print $1}}')
@@ -94,12 +95,39 @@ rebAllDoms() {
 	# Iterate over machines and shut each one down gracefully.
 	for line in ${allMachines}
 	do
-		printf "Gracefully shutting down machine: ${line}.\n"
 
-		sudo xm shutdown ${line}
+		# Do the following only for all non-NFS machines.
+		if [ "${line}" != "${nfsMachine}" ]
+		then
 
-		printf "Shut down successfull: ${line}.\n\n"
+			# Log unmount.
+			printf "Unmounting NFS shares on machine: ${line}.\n"
+
+			# SSH onto each machine and unmount.
+			ssh "${line}" /bin/bash << EOF
+				printf "\nSwitching into /tmp.\n";
+				cd /tmp;
+				printf "\nUnmounting homes and root.\n";
+				umount ${nfsMachineIP}:/export/homes;
+				umount ${nfsMachineIP}:/export/root;
+				exit;
+EOF
+
+			printf "Gracefully shutting down machine: ${line}.\n"
+
+			sudo xm shutdown ${line}
+
+			printf "Shut down successfull: ${line}.\n\n"
+
+		fi
+
 	done
+
+	printf "Gracefully shutting down NFS machine: ${nfsMachine}.\n"
+
+	sudo xm shutdown ${nfsMachine}
+
+	printf "Shut down successfull: ${nfsMachine}.\n\n"
 
 	printf "Shutting down Domain-0 (${dom0}).\n"
 
@@ -139,8 +167,7 @@ startAllDoms() {
 	for dom in ${xenDomPath}/*
 	do
 
-		# Only start found domain if it is not
-		# the NFS machine.
+		# Only start found domain if it is not the NFS machine.
 		if [ "${dom}" != "${xenDomPath}/${nfsMachine}.cfg" ]
 		then
 			printf "Found domain: ${dom}.\n"
