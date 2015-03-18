@@ -85,7 +85,7 @@ EOF
 
 	printf "Done updating and upgrading.\n\n\n"
 
-	exit 0
+	return 0
 }
 
 
@@ -134,7 +134,7 @@ EOF
 	# Now reboot Domain-0. Maybe manual interaction is required.
 	sudo reboot
 
-	exit 0
+	return 0
 }
 
 
@@ -181,7 +181,7 @@ startAllDoms() {
 
 	printf "Done starting all domains.\n\n\n"
 
-	exit 0
+	return 0
 }
 
 
@@ -206,7 +206,7 @@ EOF
 
 	printf "Done mounting on all machines.\n\n\n"
 
-	exit 0
+	return 0
 }
 
 
@@ -222,7 +222,7 @@ fi
 
 
 # Get passed arguments with getopts.
-while getopts ":ursm" opt; do
+while getopts "ursm" opt; do
 
 	case $opt in
 
@@ -247,6 +247,7 @@ while getopts ":ursm" opt; do
 			usage
 			;;
 	esac
+
 done
 
 
