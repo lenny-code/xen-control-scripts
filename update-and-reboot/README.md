@@ -47,8 +47,15 @@ It will prompt you to enter the private key password just one time each session 
 
 # Usage
 
-Simply run the script without any parameters to see usage.
-
 ```bash
-./update-and-reboot
+Usage: ./update-and-reboot.sh [ -u | -r | -s | -m ]
+   -u: update and upgrade all domains
+   -r: reboot all Domain-Us and Domain-0 after that
+   -s: start all Domain-Us
+   -m: mount NFS shares on all Domain-Us (mount -a)
+
+Usually you'll do -u and -r in the first run.
+After successfull reboot you'll run the script again with -s and -m only.
 ```
+
+You can always retrieve these information by simply running the script without any paramters.
