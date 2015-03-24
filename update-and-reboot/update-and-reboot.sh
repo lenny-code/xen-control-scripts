@@ -101,23 +101,23 @@ rebAllDoms() {
 		then
 
 			# Log unmount.
-			printf "Unmounting NFS shares on machine: ${line}.\n"
+			printf "Unmounting NFS shares on machine: ${line}.\n\n"
 
 			# SSH onto each machine and unmount.
 			ssh "${line}" /bin/bash << EOF
-				printf "\nSwitching into /tmp.\n";
+				printf "Switching into /tmp.\n";
 				cd /tmp;
-				printf "\nUnmounting homes and root.\n";
+				printf "Unmounting homes and root.\n";
 				umount ${nfsMachineIP}:/export/homes;
 				umount ${nfsMachineIP}:/export/root;
 				exit;
 EOF
 
-			printf "Gracefully shutting down machine: ${line}.\n"
+			printf "\nGracefully shutting down machine: ${line}.\n"
 
 			sudo xm shutdown ${line}
 
-			printf "Shut down successfull: ${line}.\n\n"
+			printf "Shut down successfull: ${line}.\n\n\n"
 
 		fi
 
@@ -127,7 +127,7 @@ EOF
 
 	sudo xm shutdown ${nfsMachine}
 
-	printf "Shut down successfull: ${nfsMachine}.\n\n"
+	printf "Shut down successfull: ${nfsMachine}.\n\n\n"
 
 	printf "Shutting down Domain-0 (${dom0}).\n"
 
