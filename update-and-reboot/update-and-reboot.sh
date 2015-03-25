@@ -201,7 +201,7 @@ mountNFS() {
 EOF
 
 		# We assume everything went smoothely.
-		printf "\nDone mounting.\n\n\n"
+		printf "Done mounting.\n\n\n"
 	done
 
 	printf "Done mounting on all machines.\n\n\n"
